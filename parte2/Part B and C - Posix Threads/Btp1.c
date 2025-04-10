@@ -23,6 +23,9 @@ int main()
 
 	pthread_join(tid_1, NULL);
     pthread_join(tid_2, NULL);
+
+	// Here both threads will be running myThreadFunction()
+	// Because threads share process memory, we need to be carefull while accessing it.
     
 	printf("After Running Threads\n");
 	exit(0);

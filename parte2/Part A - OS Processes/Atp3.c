@@ -160,8 +160,8 @@ int main(int argc, char const *argv[])
 	
 	//Process all jobs - blocking function
 	//dispatch_jobs_v0(local_var_job_array, JOBS_NO);
-	dispatch_jobs_v1(local_var_job_array, JOBS_NO);
-	//dispatch_jobs_v2(local_var_job_array, JOBS_NO);
+	//dispatch_jobs_v1(local_var_job_array, JOBS_NO);
+	dispatch_jobs_v2(local_var_job_array, JOBS_NO);
 
 	//Print the results
 	for (int i=0; i<JOBS_NO; i++){
