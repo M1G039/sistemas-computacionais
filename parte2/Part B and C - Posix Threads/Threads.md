@@ -39,3 +39,11 @@ O programa acima cria duas threads que rodam uma função `myThreadFunction` e o
 ***attr**: apontador para uma estrutura que contém informação sobre os atributos da nova thread a ser criada. `NULL` usa as configurações default.
 ***start_routine()**: apontador para a função a ser executada pela thread.
 ***arg**: argumento a ser passado para a thread
+
+[`pthread_join(2)`:](https://man7.org/linux/man-pages/man3/pthread_join.3.html)
+
+**Parametros:**
+**pthread_t tid**: o thread id que queremos esperar que termine
+****retval**: Quando a thread termina, a função copia o exit code dessa mesma thread para a localização apontada por retval. Se for `NULL` significa que o exit code da thread não nos interessa.
+
+### Mutexes

@@ -1,0 +1,2 @@
+Compile:            make test_pipe
+Run:                ./test_pipe /dev/pipe "message"

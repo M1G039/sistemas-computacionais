@@ -1,0 +1,17 @@
+# HOW TO USE THIS FOLDER:
+
+
+1) Run:
+	$make module=<module_name>
+to compile the LKM. This will generate the .ko file and a bunch of other files.
+
+
+2) Run: 
+	$sudo bash load_driver.sh <module_name>
+	$sudo bash unload_driver.sh <module_name>
+to load/unload the LKM and create/delete the respective device files.
+
+
+3) Run: 
+	$make clean
+to cleanup the building files.
