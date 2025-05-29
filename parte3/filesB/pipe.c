@@ -58,11 +58,32 @@ static int pipe_release(struct inode *inode, struct file *filp)
 /************/
 ssize_t pipe_read(struct file *filep, char __user *buff, size_t count, loff_t *offp)
 {
-    // Should read data from circ_buffer and transfer it to user space.
+    int i, rd_count = 0;
+	char rd_data = 0;
 
-	// Debug:
-	printk(KERN_INFO "pipe_read(): Read X characters\n");
-	return 0;
+	for (i = 0; i<count; i++)
+	{
+		if (circ_buff_pop(pipe_buffer, &rd_data) != 0)
+		{
+			printk(KERN_INFO "pipe_read(): No data to read\n");
+			break; // no data to read
+		}
+		if (copy_to_user((void __user *) buff+i, (const void *) &rd_data, 1) != 0)
+		{
+			printk(KERN_INFO "pipe_read(): Error copying to user\n");
+			return -1; // error copying
+		}
+		rd_count++;
+		printk(KERN_INFO "pipe_read(): Read %d characters\n", rd_count);
+	}
+	if (rd_count == 0)
+	{
+		// Buffer empty from the start
+		printk(KERN_ERR "pipe_read(): FIFO empty\n");
+		return 0; // no characters read
+	}
+	else
+		return ((ssize_t) rd_count+1); // return number of bytes read
 }
 /************/
 ssize_t pipe_write(struct file *filep, const char __user *buff, size_t count, loff_t *offp)
@@ -145,14 +166,16 @@ static int pipe_init(void)
 static void pipe_exit(void)
 {
     // deregister character device
-	if (mycdev)
-		cdev_del(mycdev);
+	if (mycdev){
+		cdev_del(my_cdev);   // Unregister from kernel first
+		kfree(my_cdev);      // Then free the memory
+	}
+
 
 	unregister_chrdev_region(mydev, 1); 
     // deregister the device driver's device numbers
 
-	// print "pipe device driver deregistered" to the kernel
-	// logginf buffer using the information log level
+	// Print a message to the kernel saying the module has been unregistered
 	printk(KERN_INFO "pipe device driver deregistered\n");
 }
 /************/
