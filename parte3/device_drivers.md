@@ -238,5 +238,5 @@ static void hello_exit(){
 module_init(hello_init);
 module_exit(hello_exit);
 ```
-The only thing that is left is to implement the file related system calls.
+Apenas falta implementar as system calls relacionadas com as operações de ficheiros.
 
